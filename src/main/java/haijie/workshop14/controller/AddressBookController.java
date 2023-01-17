@@ -32,7 +32,7 @@ public class AddressBookController {
     }
 
     @PostMapping(value="/contact")
-    public String saveContact(@Valid Contact contact, Model model, HttpServletResponse response, BindingResult result) {
+    public String saveContact(@Valid Contact contact,BindingResult result,  Model model, HttpServletResponse response) {
         if(result.hasErrors()){
             return "contact";
         }
@@ -43,16 +43,17 @@ public class AddressBookController {
         return "showContact";
     }
     
-    @GetMapping("/contact")
+    @GetMapping(path = "/contact")
     public String getAllContact(Model model, @RequestParam(name="startIndex") Integer startIndex){
         List<Contact> result= ctcRedisSvc.findAll(startIndex);
         model.addAttribute("contacts", result);
         return "listContact";
     }
 
-    @GetMapping(path="/contact/{contactID}")
+    @GetMapping(path="/contact/{contactId}")
     public String getContactInfoById(Model model, @PathVariable(value = "contactId") String contactId){
         Contact ctc = ctcRedisSvc.findById(contactId);
+        ctc.setId(contactId);
         model.addAttribute("contact", ctc);
         return "showContact";
     }

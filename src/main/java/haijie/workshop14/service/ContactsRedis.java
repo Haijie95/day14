@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import haijie.workshop14.models.Contact;
 
-@Qualifier("ContactsRedis")
+@Qualifier("contactsRedis")
 @Service
 public class ContactsRedis {
     private static final String CONTACT_ENTITY = "contactlist";

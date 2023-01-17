@@ -18,9 +18,12 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 public class RedisConfig {
+
+    //value redis host from appLn.properties
     @Value("${spring.redis.host}")
     private String redisHost;
     
+    //value redis port from appLn.propereties
     @Value("${spring.redis.port}")
     private Optional<Integer> redistPort;
 
@@ -30,8 +33,11 @@ public class RedisConfig {
     @Value("${spring.redis.password}")
     private String redisPassword;
 
+    // define the return redis template bean as single Object
+    // throughout the runtime.
+    // Return the RedisTemplate
     @Bean
-    @Scope("singleton")
+    @Scope("singleton") //only 1 session
     public RedisTemplate<String, Object> RedisTemplate(){
         final RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
 
@@ -59,10 +65,13 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(jedisFac);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new StringRedisSerializer());
+        // set the map key/value serialization type to String
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        // enable redis to store java object on the value column
 
-        RedisSerializer<Object> serializer = new JdkSerializationRedisSerializer(getClass().getClassLoader());
-        redisTemplate.setValueSerializer(serializer);
+        RedisSerializer<Object> objSerializer = new JdkSerializationRedisSerializer(getClass().getClassLoader());
+        redisTemplate.setValueSerializer(objSerializer);
+        redisTemplate.setHashValueSerializer(objSerializer);
         return redisTemplate;
     }
 }

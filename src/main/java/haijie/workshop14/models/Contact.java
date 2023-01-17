@@ -34,7 +34,6 @@ public class Contact implements Serializable {
     @DateTimeFormat(pattern = "MM-dd-yyyy")
     private LocalDate dateOfBirth;
 
-    @NotNull(message = "User's age cannot be null.")
     @Min(value = 10, message = "Must be above 10 years old")
     @Max(value = 100, message = "Must be below 100 years old")
     private int age;
