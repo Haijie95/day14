@@ -17,23 +17,22 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 public class AddressBookController {
 
     @Autowired
     private ContactsRedis ctcRedisSvc;
 
-    @GetMapping(path="/")
-    public String contactForm(Model model){
-        model.addAttribute("contact",new Contact());
+    @GetMapping(path = "/")
+    public String contactForm(Model model) {
+        model.addAttribute("contact", new Contact());
 
         return "contact";
     }
 
-    @PostMapping(value="/contact")
-    public String saveContact(@Valid Contact contact,BindingResult result,  Model model, HttpServletResponse response) {
-        if(result.hasErrors()){
+    @PostMapping(value = "/contact")
+    public String saveContact(@Valid Contact contact, BindingResult result, Model model, HttpServletResponse response) {
+        if (result.hasErrors()) {
             return "contact";
         }
         ctcRedisSvc.save(contact);
@@ -42,16 +41,16 @@ public class AddressBookController {
 
         return "showContact";
     }
-    
+
     @GetMapping(path = "/contact")
-    public String getAllContact(Model model, @RequestParam(name="startIndex") Integer startIndex){
-        List<Contact> result= ctcRedisSvc.findAll(startIndex);
+    public String getAllContact(Model model, @RequestParam(name = "startIndex") Integer startIndex) {
+        List<Contact> result = ctcRedisSvc.findAll(startIndex);
         model.addAttribute("contacts", result);
         return "listContact";
     }
 
-    @GetMapping(path="/contact/{contactId}")
-    public String getContactInfoById(Model model, @PathVariable(value = "contactId") String contactId){
+    @GetMapping(path = "/contact/{contactId}")
+    public String getContactInfoById(Model model, @PathVariable(value = "contactId") String contactId) {
         Contact ctc = ctcRedisSvc.findById(contactId);
         ctc.setId(contactId);
         model.addAttribute("contact", ctc);

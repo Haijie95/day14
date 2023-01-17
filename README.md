@@ -1,4 +1,6 @@
-How to start redis?
+# Workshop 14
+
+## How to start redis?
 1. Start a redis server
 ```
 wsl             -> For windows to use linux simulation
@@ -14,7 +16,7 @@ redis-cli   -> connect to server (on new tab)
 mvn spring-boot:run
 ```
 
-How to submit!
+## How to submit!
 * Start railway init and go to settings
 ```
 -> railway init
@@ -23,7 +25,7 @@ How to submit!
 -> Mainly the username, password, port, host(end URL)
 -> Paste it in the application properties
 ```
-This is for REDISDOTCOM
+## This is for REDISDOTCOM
 ```
 -> Go to redis official website 
 -> Login
@@ -32,7 +34,7 @@ This is for REDISDOTCOM
 -> Add them to the railway variable
 -> Replace them with dynamic variables in the application.properties
 ```
-This is for branching
+## This is for branching
 1. To branch out (change branch)
 ```
 git checkout -b haijie
@@ -44,7 +46,7 @@ So as not to touch the Main
 ```
 git checkout main
 ```
-How to add mvn dependency for redis
+## How to add mvn dependency for redis
 ```
 Google mvn repository and search for redis
 
@@ -55,7 +57,7 @@ Google mvn repository and search for redis
 			<version>3.9.0</version>
 		</dependency>
 ```
-Basic redis demo
+## Basic redis demo
 * Pinging to check connection
 ```
 redis-cli -h localhost ping

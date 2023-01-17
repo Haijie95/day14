@@ -15,15 +15,14 @@ import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-
 @Configuration
 public class RedisConfig {
 
-    //value redis host from appLn.properties
+    // value redis host from appLn.properties
     @Value("${spring.redis.host}")
     private String redisHost;
-    
-    //value redis port from appLn.propereties
+
+    // value redis port from appLn.propereties
     @Value("${spring.redis.port}")
     private Optional<Integer> redistPort;
 
@@ -37,17 +36,16 @@ public class RedisConfig {
     // throughout the runtime.
     // Return the RedisTemplate
     @Bean
-    @Scope("singleton") //only 1 session
-    public RedisTemplate<String, Object> RedisTemplate(){
+    @Scope("singleton") // only 1 session
+    public RedisTemplate<String, Object> RedisTemplate() {
         final RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-
 
         config.setHostName(redisHost);
         config.setPort(redistPort.get());
         config.setUsername(redisUsername);
         config.setPassword(redisPassword);
 
-        if(!redisUsername.isEmpty() && !redisPassword.isEmpty()){
+        if (!redisUsername.isEmpty() && !redisPassword.isEmpty()) {
             config.setUsername(redisUsername);
             config.setPassword(redisPassword);
         }
@@ -55,13 +53,13 @@ public class RedisConfig {
 
         final JedisClientConfiguration jedisClient = JedisClientConfiguration.builder().build();
 
-        final JedisConnectionFactory jedisFac = new JedisConnectionFactory(config,jedisClient);
-        
+        final JedisConnectionFactory jedisFac = new JedisConnectionFactory(config, jedisClient);
+
         jedisFac.afterPropertiesSet();
 
-        RedisTemplate<String,Object> redisTemplate = new RedisTemplate<String,Object>();
-        
-        //associate with the redis connection
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
+
+        // associate with the redis connection
         redisTemplate.setConnectionFactory(jedisFac);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new StringRedisSerializer());
